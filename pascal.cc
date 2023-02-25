@@ -8,33 +8,30 @@ void print_vec(vector<int> &v)
     cout << endl;
 }
 
-void determine_row(vector<int> &row, const vector<int> prow)
-{
-    for (int i = 1; i < prow.size(); i++)
-        row[i] = prow[i] + prow[i - 1];
-    row[0] = prow[0];
-    row[row.size() - 1] = prow[prow.size() - 1];
-
-}
-
 vector<vector<int>> solve(int num_rows)
 {
     vector<vector<int>> ans(num_rows);
+    if (num_rows == 0)
+        return ans;
+    ans[0] = vector<int>(1);
+    ans[1] = vector<int>(2);
     ans[0][0] = 1;
     ans[1][0] = 1;
     ans[1][1] = 1;
-    for (int i = 2; i <= num_rows; i++)
+    for (int i = 2; i < num_rows; i++)
     {
-        vector<int> row(i);
-        
-        ans[i] = row;
+        ans[i] = vector<int>(i + 1);
+        ans[i][0] = 1;
+        ans[i][i] = 1;
+        for (int j = 1; j < i; j++)
+            ans[i][j] = ans[i - 1][j] + ans[i - 1][j - 1];
     }
     return ans;
 }
 
 int main()
 {
-    int n = 3;
+    int n = 0;
     vector<vector<int>> pt = solve(n);
     for (vector<int> v : pt)
     {
